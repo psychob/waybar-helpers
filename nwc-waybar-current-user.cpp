@@ -1,4 +1,5 @@
 #include <chrono>
+#include <iostream>
 #include <unistd.h>
 #include <pwd.h>
 #include <string>
@@ -169,4 +170,5 @@ void loop() {
     }
 
     std::println("{}", serialize(result));
+    std::flush(std::cout);
 }
