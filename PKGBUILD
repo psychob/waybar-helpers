@@ -7,9 +7,16 @@ arch=('x86_64')
 url="https://github.com/psychob/waybar-helpers"  # Add your repository URL if desired
 license=('AGPL-3+')  # Change to your actual license
 depends=('systemd-libs' 'boost-libs')
-makedepends=('cmake' 'gcc' 'pkgconf' 'boost')
+makedepends=('cmake' 'gcc' 'pkgconf' 'boost' 'git')
 source=("$pkgname"::"git+file://$startdir")
 sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$pkgname"
+  # Turn `git describe` output into a pacman-friendly version
+  git describe --tags --long --always --dirty 2>/dev/null \
+    | sed 's/^v//' | tr - .
+}
 
 build() {
     cd "$srcdir/$pkgname"
@@ -29,7 +36,7 @@ build() {
 }
 
 package() {
-    cd "$srcdir/build"
+    cd "$srcdir/$pkgname/build"
 
     # Install using CMake
     make DESTDIR="$pkgdir" install
