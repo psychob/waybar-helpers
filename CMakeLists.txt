@@ -9,8 +9,6 @@ pkg_check_modules(SYSTEMD REQUIRED libsystemd)
 
 find_package(Boost REQUIRED COMPONENTS json program_options)
 
-add_executable(nwc-waybar-memory nwc-waybar-memory.cpp)
-
 add_executable(nwc-waybar-current-user nwc-waybar-current-user.cpp
         nwc/arguments.cpp
         nwc/arguments.hpp
@@ -29,3 +27,5 @@ target_include_directories(nwc-waybar-current-user PRIVATE ${Boost_INCLUDE_DIRS}
 # Link against systemd libraries
 target_link_libraries(nwc-waybar-current-user PRIVATE ${SYSTEMD_LIBRARIES})
 target_link_libraries(nwc-waybar-current-user PRIVATE ${Boost_LIBRARIES})
+
+install(TARGETS nwc-waybar-current-user RUNTIME DESTINATION bin)

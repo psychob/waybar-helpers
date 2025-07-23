@@ -57,16 +57,28 @@ std::string get_current_user() {
 auto get_current_uptime() {
     char *sid = nullptr;
     if (sd_pid_get_session(0, &sid) < 0) {
-        throw std::runtime_error("no systemd session");
+        pid_t pid = getpid();
+        if (sd_pid_get_session(pid, &sid) < 0) {
+            uid_t uid = getuid();
+            char **sessions;
+            int n = sd_uid_get_sessions(uid, 0, &sessions);
+            if (n <= 0) {
+                throw std::runtime_error("no systemd session for user");
+            }
+            sid = strdup(sessions[0]);
+            for (int i = 0; i < n; i++) {
+                free(sessions[i]);
+            }
+            free(sessions);
+        }
     }
+
+    std::unique_ptr<char, decltype(&free)> sid_cleanup_ptr(sid, &free);
 
     uint64_t usec;
     if (sd_session_get_start_time(sid, &usec) < 0) {
-        free(sid);
         throw std::runtime_error("no systemd session start time");
     }
-
-    free(sid);
 
     time_t start_time = usec / 1000000ULL;
     time_t now = time(nullptr);
