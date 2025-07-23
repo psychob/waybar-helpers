@@ -152,19 +152,18 @@ void loop() {
     if (append_uptime_to_text) {
         result = boost::json::value(
             boost::json::object{
-                {
-                    "text", buffer + " " + uptime_str
-                },
+                { "text", buffer + " " + uptime_str },
+                { "alt", "" },
+                { "tooltip", "" },
+                { "class", "" },
             });
     } else {
         result = boost::json::value(
             boost::json::object{
-                {
-                    "text", buffer
-                },
-                {
-                    "tooltip", std::format("uptime: {}", uptime_str)
-                }
+                { "text", buffer },
+                { "tooltip", std::format("uptime: {}", uptime_str) },
+                { "alt", "" },
+                { "class", "" },
             }
         );
     }
