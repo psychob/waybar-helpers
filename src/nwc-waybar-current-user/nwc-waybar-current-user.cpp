@@ -7,8 +7,8 @@
 #include <systemd/sd-login.h>
 #include <boost/json.hpp>
 
-#include "nwc/arguments.hpp"
-#include "nwc/utility.hpp"
+#include "../nwc/arguments.hpp"
+#include "../nwc/utility.hpp"
 
 namespace po = boost::program_options;
 
