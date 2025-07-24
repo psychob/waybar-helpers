@@ -8,10 +8,20 @@
 #include "../nwc/arguments.hpp"
 #include "../nwc/utility.hpp"
 
+static int top_process_count = 15;
+static int top_group_count = 15;
+
 void loop();
 
 int main(int argc, char **argv) {
+    using namespace boost::program_options;
     nwc::arguments args;
+
+    args.options().add_options()
+    ("top-process-count,p", value(&top_process_count)->default_value(15),
+     "how many process should be displayed")
+    ("top-group-count,g", value(&top_group_count)->default_value(15),
+     "how many process should be displayed");
 
     args.parse(argc, argv);
     if (args.help()) {
@@ -260,7 +270,7 @@ void update_process_list() {
     });
 
     std::string top_processes{};
-    for (auto it = 0; it < std::min<unsigned>(10, processes.size()); ++it) {
+    for (auto it = 0; it < std::min<unsigned>(top_process_count, processes.size()); ++it) {
         auto const &process = processes[it];
         top_processes += std::format(" {} {}: <b>{}</b> ({})\n",
                                      process.icon,
@@ -278,7 +288,7 @@ void update_process_list() {
         return p.pid == 1;
     });
 
-    for (auto it = 0; it < std::min<unsigned>(10, processes.size()); ++it) {
+    for (auto it = 0; it < std::min<unsigned>(top_group_count, processes.size()); ++it) {
         auto const &process = processes[it];
         top_process_groups += std::format(" {} {}: <b>{}</b> ({})\n",
                                           process.icon,
