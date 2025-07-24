@@ -173,17 +173,29 @@ std::optional<process_info> get_process_info(int pid) {
 }
 
 void calculate_process_group(std::vector<process_info> &processes) {
-    for (auto &process: processes) {
-        auto parent_ptr = std::find_if(processes.begin(), processes.end(), [process](const auto &p) {
-            return p.pid == process.ppid;
-        });
-        if (parent_ptr == processes.end()) {
-            continue;
-        }
+    int move = 0;
 
-        parent_ptr->process_group_memory += process.memory;
-        process.memory = 0;
-    }
+    do {
+        move = 0;
+
+        for (auto &process: processes) {
+            auto parent_ptr = std::find_if(processes.begin(), processes.end(), [process](const auto &p) {
+                return p.pid == process.ppid;
+            });
+            if (parent_ptr == processes.end()) {
+                continue;
+            }
+
+            if (process.memory == 0) {
+                continue;
+            }
+
+            parent_ptr->process_group_memory += process.memory;
+            parent_ptr->memory += process.memory;
+            process.memory = 0;
+            move++;
+        }
+    } while (move > 0);
 }
 
 static auto last_update_time = std::chrono::system_clock::now();
@@ -281,7 +293,7 @@ std::string get_tooltip_from_info(const mem_info &info, unsigned count) {
                            convert_bytes_to_human_readable(info.buffer_current)
     );
 
-    tooltip += std::format("<b>SWAP</b>: {}/{}\n", convert_bytes_to_human_readable(info.swap_current),
+    tooltip += std::format("<b>SWAP</b>: {}/{}\n\n", convert_bytes_to_human_readable(info.swap_current),
                            convert_bytes_to_human_readable(info.swap_max));
 
     tooltip += generate_tooltip_from(count);
@@ -305,8 +317,8 @@ void loop() {
     auto jv = value(
         object{
             {"text", text},
-            {"tooltip", tooltip},
             {"alt", alt_text},
+            {"tooltip", tooltip},
             {"class", ""}
         }
     );
