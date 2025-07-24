@@ -10,3 +10,4 @@ pkg_check_modules(SYSTEMD REQUIRED libsystemd)
 find_package(Boost REQUIRED COMPONENTS json program_options)
 
 add_subdirectory(src/nwc-waybar-current-user)
+add_subdirectory(src/nwc-waybar-memory)
