@@ -124,7 +124,23 @@ struct process_info {
     int ppid{};
     std::string name{}, cmd{};
     std::size_t memory{}, process_group_memory{};
+    std::string icon{"*"};
 };
+
+std::map<std::string, std::string> icon_map = {
+    {"firefox", "\ue007"},
+    {"firefox-bin", "\ue007"},
+    {"webstorm", "\uf121"},
+    {"clion", "\uf121"},
+    {"Rider.Backend", "\uf121"},
+};
+
+void detect_icon_from_process(process_info &info) {
+    auto it = icon_map.find(info.name);
+    if (it != icon_map.end()) {
+        info.icon = it->second;
+    }
+}
 
 std::optional<process_info> get_process_info(int pid) {
     std::ifstream file("/proc/" + std::to_string(pid) + "/status");
@@ -168,6 +184,8 @@ std::optional<process_info> get_process_info(int pid) {
             info.name = info.name.substr(last_slash + 1);
         }
     }
+
+    detect_icon_from_process(info);
 
     return info;
 }
@@ -232,7 +250,10 @@ void update_process_list() {
     std::string top_processes{};
     for (auto it = 0; it < std::min<unsigned>(10, processes.size()); ++it) {
         auto const &process = processes[it];
-        top_processes += std::format(" * {}: {} ({})\n", process.pid, process.name,
+        top_processes += std::format(" {} {}: {} ({})\n",
+                                     process.icon,
+                                     process.pid,
+                                     process.name,
                                      convert_bytes_to_human_readable(process.memory));
     }
 
@@ -247,7 +268,10 @@ void update_process_list() {
 
     for (auto it = 0; it < std::min<unsigned>(10, processes.size()); ++it) {
         auto const &process = processes[it];
-        top_process_groups += std::format(" * {}: {} ({})\n", process.pid, process.name,
+        top_process_groups += std::format(" {} {}: {} ({})\n",
+                                          process.icon,
+                                          process.pid,
+                                          process.name,
                                           convert_bytes_to_human_readable(process.process_group_memory));
     }
 
