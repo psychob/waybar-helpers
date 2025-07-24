@@ -32,7 +32,7 @@ build() {
         -DCMAKE_CXX_STANDARD=23
 
     # Build
-    make
+    make -j$(nproc)
 }
 
 package() {
