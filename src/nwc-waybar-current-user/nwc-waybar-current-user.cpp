@@ -173,7 +173,7 @@ void loop() {
         result = boost::json::value(
             boost::json::object{
                 { "text", buffer },
-                { "tooltip", std::format("uptime: {}\nboot time: {}", uptime_str, boottime_str) },
+                { "tooltip", std::format("uptime   : {}\nboot time: {}", uptime_str, boottime_str) },
                 { "alt", "" },
                 { "class", "" },
             }
