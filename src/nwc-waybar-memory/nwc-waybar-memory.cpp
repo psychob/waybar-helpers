@@ -131,16 +131,20 @@ std::map<std::string, std::string> icon_map = {
     {"firefox", "\uf269"},
     {"firefox-bin", "\uf269"},
     {"webstorm", "\uf121"},
-    {"clion", "\uf121"},
+    {"clion", "\ue61d"},
+    {"clangd", "\ue61d"},
     {"Rider.Backend", "\uf121"},
     {"systemd", "\uf4fe"},
     {"sddm", "\uf390"},
     {"sddm-helper", "\uf390"},
-    {"Hyprland", "\uf009"},
+    {"Hyprland", "\uf359"},
     {"waybar", "\uf2d1"},
     {"bash", "\uf120"},
     {"sh", "\uf120"},
     {"kitty", "\uf6be"},
+    {"dropbox", "\ue707"},
+    {"dockerd", "\ue7b0"},
+    {"containerd", "\ue7b0"},
 };
 
 void detect_icon_from_process(process_info &info) {
