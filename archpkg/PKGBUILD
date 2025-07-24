@@ -8,7 +8,7 @@ url="https://github.com/psychob/waybar-helpers"  # Add your repository URL if de
 license=('AGPL-3+')  # Change to your actual license
 depends=('systemd-libs' 'boost-libs')
 makedepends=('cmake' 'gcc' 'pkgconf' 'boost' 'git')
-source=("$pkgname"::"git+file://$startdir")
+source=("$pkgname"::"git+file://$startdir/..")
 sha256sums=('SKIP')
 
 pkgver() {
