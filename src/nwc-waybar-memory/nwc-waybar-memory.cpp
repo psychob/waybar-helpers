@@ -148,9 +148,12 @@ std::optional<process_info> get_process_info(int pid) {
     }
 
     if (!info.cmd.empty()) {
+        auto next_space = info.cmd.find(' ');
         auto next_null = info.cmd.find('\0');
-        if (next_null != std::string::npos) {
-            info.name = info.cmd.substr(0, next_null);
+
+        auto next_null_or_space = std::min(next_null, next_space);
+        if (next_null_or_space != std::string::npos) {
+            info.name = info.cmd.substr(0, next_null_or_space);
         }
 
         auto last_slash = info.name.rfind('/');
