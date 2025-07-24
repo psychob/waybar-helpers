@@ -112,6 +112,13 @@ std::string get_text_from_info(const mem_info &info) {
     return std::format("{} {}/{}", icon, current_usage, max_usage);
 }
 
+std::string get_alt_text_from_info(const mem_info &info) {
+    std::string icon = "\uf538";
+    std::string current_usage = convert_bytes_to_human_readable(info.ram_used);
+
+    return std::format("{} {}", icon, current_usage);
+}
+
 struct process_info {
     int pid{};
     int ppid{};
@@ -290,6 +297,7 @@ void loop() {
     auto const info = load_current_memory_information();
 
     std::string text = get_text_from_info(info);
+    std::string alt_text = get_alt_text_from_info(info);
     std::string tooltip = get_tooltip_from_info(info, iteration++);
 
     using namespace boost::json;
@@ -298,7 +306,7 @@ void loop() {
         object{
             {"text", text},
             {"tooltip", tooltip},
-            {"alt", ""},
+            {"alt", alt_text},
             {"class", ""}
         }
     );
