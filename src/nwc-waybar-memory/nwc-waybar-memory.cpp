@@ -128,11 +128,18 @@ struct process_info {
 };
 
 std::map<std::string, std::string> icon_map = {
-    {"firefox", "\ue007"},
-    {"firefox-bin", "\ue007"},
+    {"firefox", "\uf269"},
+    {"firefox-bin", "\uf269"},
     {"webstorm", "\uf121"},
     {"clion", "\uf121"},
     {"Rider.Backend", "\uf121"},
+    {"systemd", "\uf4fe"},
+    {"sddm", "\uf390"},
+    {"sddm-helper", "\uf390"},
+    {"Hyprland", "\uf009"},
+    {"waybar", "\uf2d1"},
+    {"bash", "\uf120"},
+    {"sh", "\uf120"},
 };
 
 void detect_icon_from_process(process_info &info) {
@@ -250,7 +257,7 @@ void update_process_list() {
     std::string top_processes{};
     for (auto it = 0; it < std::min<unsigned>(10, processes.size()); ++it) {
         auto const &process = processes[it];
-        top_processes += std::format(" {} {}: {} ({})\n",
+        top_processes += std::format(" {} {}: <b>{}</b> ({})\n",
                                      process.icon,
                                      process.pid,
                                      process.name,
@@ -268,7 +275,7 @@ void update_process_list() {
 
     for (auto it = 0; it < std::min<unsigned>(10, processes.size()); ++it) {
         auto const &process = processes[it];
-        top_process_groups += std::format(" {} {}: {} ({})\n",
+        top_process_groups += std::format(" {} {}: <b>{}</b> ({})\n",
                                           process.icon,
                                           process.pid,
                                           process.name,
