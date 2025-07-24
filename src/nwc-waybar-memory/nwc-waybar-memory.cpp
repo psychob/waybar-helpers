@@ -145,9 +145,12 @@ std::map<std::string, std::string> icon_map = {
     {"clangd", "\ue61d"},
     {"Rider.Backend", "\uf121"},
     {"systemd", "\uf4fe"},
+    {"systemd-journald", "\uf4fe"},
     {"sddm", "\uf390"},
     {"sddm-helper", "\uf390"},
     {"Hyprland", "\uf359"},
+    {"xdg-desktop-portal-hyprland", "\uf359"},
+    {"hyprpaper", "\uf359"},
     {"waybar", "\uf2d1"},
     {"bash", "\uf120"},
     {"sh", "\uf120"},
@@ -155,6 +158,13 @@ std::map<std::string, std::string> icon_map = {
     {"dropbox", "\ue707"},
     {"dockerd", "\ue7b0"},
     {"containerd", "\ue7b0"},
+    {"keepassxc", "\uf033e"},
+    {"nodejs", "\ued0d"},
+    {"pnpm", "\ue865"},
+    {"Xorg", "\uf369"},
+    {"python", "\ue73c"},
+    {"python3", "\ue73c"},
+    {"nm-applet", "\uef09"},
 };
 
 void detect_icon_from_process(process_info &info) {
