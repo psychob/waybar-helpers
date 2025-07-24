@@ -330,7 +330,7 @@ std::string get_tooltip_from_info(const mem_info &info, unsigned count) {
 
     tooltip += generate_tooltip_from(count);
 
-    tooltip += std::format("<i>Last updated: {} | Next update in: {}s</i>", last_update_time, 15 - (count % 15));
+    tooltip += std::format("<i>Last updated: {}</i> | <i>Next update in: {}s</i>", last_update_time, 15 - (count % 15));
 
     return tooltip;
 }
