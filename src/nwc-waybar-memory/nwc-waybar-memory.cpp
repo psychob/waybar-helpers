@@ -35,17 +35,17 @@ std::string convert_bytes_to_human_readable(uint64_t bytes) {
 
     std::string result;
     if (bytes >= gibibyte) {
-        result = std::format("{:.2f}GiB", bytes / static_cast<long double>(gibibyte));
+        result = std::format("{:.2f} GiB", bytes / static_cast<long double>(gibibyte));
     } else if (bytes >= mebibyte) {
-        result = std::format("{:.2f}MiB", bytes / static_cast<long double>(mebibyte));
+        result = std::format("{:.2f} MiB", bytes / static_cast<long double>(mebibyte));
     } else if (bytes >= kibibyte) {
-        result = std::format("{:.2f}KiB", bytes / static_cast<long double>(kibibyte));
+        result = std::format("{:.2f} KiB", bytes / static_cast<long double>(kibibyte));
     } else {
         if (bytes == 0) {
-            return "0B";
+            return "0";
         }
 
-        result = std::format("{}B", bytes);
+        result = std::format("{} B", bytes);
     }
 
     return result;
@@ -140,9 +140,7 @@ std::optional<process_info> get_process_info(int pid) {
         if (line.starts_with("PPid:")) {
             info.ppid = std::stoi(line.substr(5));
         }
-    }
-
-    {
+    } {
         std::ifstream cmdline_file("/proc/" + std::to_string(pid) + "/cmdline");
         if (cmdline_file.is_open()) {
             info.cmd = std::string(std::istreambuf_iterator<char>(cmdline_file), {});
@@ -293,6 +291,8 @@ void loop() {
         object{
             {"text", text},
             {"tooltip", tooltip},
+            {"alt", ""},
+            {"class", ""}
         }
     );
 
