@@ -219,6 +219,10 @@ void update_process_list() {
     std::sort(processes.begin(), processes.end(), [](const auto &a, const auto &b) {
         return a.process_group_memory > b.process_group_memory;
     });
+    std::erase_if(processes, [](const auto &p) {
+        return p.pid == 1;
+    });
+
     for (auto it = 0; it < std::min<unsigned>(10, processes.size()); ++it) {
         auto const &process = processes[it];
         top_process_groups += std::format(" * {}: {} ({})\n", process.pid, process.name,
