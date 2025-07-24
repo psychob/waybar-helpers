@@ -140,6 +140,7 @@ std::map<std::string, std::string> icon_map = {
     {"waybar", "\uf2d1"},
     {"bash", "\uf120"},
     {"sh", "\uf120"},
+    {"kitty", "\uf6be"},
 };
 
 void detect_icon_from_process(process_info &info) {
