@@ -6,6 +6,7 @@
 #include <print>
 #include <systemd/sd-login.h>
 #include <boost/json.hpp>
+#include <sys/sysinfo.h>
 
 #include "../nwc/arguments.hpp"
 #include "../nwc/utility.hpp"
@@ -90,6 +91,15 @@ auto get_current_uptime() {
     return now_time_point - start_time_point;
 }
 
+auto get_current_boottime() {
+    struct sysinfo info = {};
+    if (sysinfo(&info) != 0) {
+        throw std::runtime_error("sysinfo failed");
+    }
+
+    return std::chrono::seconds(info.uptime);
+}
+
 template<typename T, typename U>
 std::string convert_duration_tostring(std::chrono::duration<T, U> duration) {
     using namespace std::chrono;
@@ -139,7 +149,7 @@ std::string convert_duration_tostring(std::chrono::duration<T, U> duration) {
 void loop() {
     auto const user_name = get_current_user();
     auto const uptime = get_current_uptime();
-    std::string buffer, uptime_str;
+    std::string buffer, uptime_str, boottime_str;
 
     if (!dont_add_user_icon) {
         buffer = std::format("{} {}", icon_str, user_name);
@@ -148,6 +158,7 @@ void loop() {
     }
 
     uptime_str = convert_duration_tostring(uptime);
+    boottime_str = convert_duration_tostring(get_current_boottime());
 
     boost::json::value result;
     if (append_uptime_to_text) {
@@ -162,7 +173,7 @@ void loop() {
         result = boost::json::value(
             boost::json::object{
                 { "text", buffer },
-                { "tooltip", std::format("uptime: {}", uptime_str) },
+                { "tooltip", std::format("uptime: {}\nboot time: {}", uptime_str, boottime_str) },
                 { "alt", "" },
                 { "class", "" },
             }
