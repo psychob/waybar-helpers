@@ -6,7 +6,9 @@ add_executable(nwc-waybar-memory
         ../nwc/arguments.cpp
         ../nwc/arguments.hpp
         ../nwc/utility.hpp
-        ../nwc/utility.cpp)
+        ../nwc/utility.cpp
+        ../nwc/fmt-map.cpp
+        ../nwc/fmt-map.hpp)
 
 target_compile_definitions(nwc-waybar-memory PRIVATE
         APP_NAME="nwc-waybar-memory"
@@ -20,5 +22,6 @@ target_include_directories(nwc-waybar-memory PRIVATE ${Boost_INCLUDE_DIRS})
 # Link against systemd libraries
 target_link_libraries(nwc-waybar-memory PRIVATE ${SYSTEMD_LIBRARIES})
 target_link_libraries(nwc-waybar-memory PRIVATE ${Boost_LIBRARIES})
+target_link_libraries(nwc-waybar-memory PRIVATE fmt::fmt)
 
 install(TARGETS nwc-waybar-memory RUNTIME DESTINATION bin)

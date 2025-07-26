@@ -15,7 +15,9 @@ void loop();
 
 int main(int argc, char **argv) {
     using namespace boost::program_options;
-    nwc::arguments args;
+    nwc::arguments args{
+        "", "", ""
+    };
 
     args.options().add_options()
     ("top-process-count,p", value(&top_process_count)->default_value(15),
