@@ -8,6 +8,7 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(SYSTEMD REQUIRED libsystemd)
 
 find_package(Boost REQUIRED COMPONENTS json program_options)
+find_package(fmt REQUIRED)
 
 add_subdirectory(src/nwc-waybar-current-user)
 add_subdirectory(src/nwc-waybar-memory)

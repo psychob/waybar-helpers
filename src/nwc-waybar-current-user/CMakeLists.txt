@@ -6,7 +6,10 @@ add_executable(nwc-waybar-current-user
         ../nwc/arguments.cpp
         ../nwc/arguments.hpp
         ../nwc/utility.hpp
-        ../nwc/utility.cpp)
+        ../nwc/utility.cpp
+        ../nwc/fmt-map.cpp
+        ../nwc/fmt-map.hpp
+        ../nwc/duration-to-string.hpp)
 
 target_compile_definitions(nwc-waybar-current-user PRIVATE
         APP_NAME="nwc-waybar-current-user"
@@ -20,5 +23,6 @@ target_include_directories(nwc-waybar-current-user PRIVATE ${Boost_INCLUDE_DIRS}
 # Link against systemd libraries
 target_link_libraries(nwc-waybar-current-user PRIVATE ${SYSTEMD_LIBRARIES})
 target_link_libraries(nwc-waybar-current-user PRIVATE ${Boost_LIBRARIES})
+target_link_libraries(nwc-waybar-current-user PRIVATE fmt::fmt)
 
 install(TARGETS nwc-waybar-current-user RUNTIME DESTINATION bin)

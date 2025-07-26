@@ -13,7 +13,9 @@ namespace nwc {
         }
     }
 
-    arguments::arguments() {
+    arguments::arguments(std::string_view text, std::string_view alt, std::string_view tooltip)
+        : text_fmt(text), alt_fmt(alt), tooltip_fmt(tooltip)
+    {
         options_.add_options()
                 ("help,h", "print help message")
                 ("once", po::bool_switch(&run_only_once_), "run only once")
@@ -50,5 +52,17 @@ namespace nwc {
         std::print("© 2025 Andrzej Budzanowski https://tools.psychob.pl/nwc-waybar/\n\n");
 
         std::print("{}\n", to_string_via_stream(options_));
+    }
+
+    std::string_view arguments::get_text() const noexcept {
+        return text_fmt;
+    }
+
+    std::string_view arguments::get_alt() const noexcept {
+        return alt_fmt;
+    }
+
+    std::string_view arguments::get_tooltip() const noexcept {
+        return tooltip_fmt;
     }
 }
